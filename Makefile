@@ -1,5 +1,5 @@
 build:
-	docker-compose up -d --build --no-cache app
+	docker-compose up -d --build app
 	docker-compose run app npm run prisma:migrate -- --name init
 	docker-compose run app npm run prisma:generate
 	docker-compose run app npm run seed
