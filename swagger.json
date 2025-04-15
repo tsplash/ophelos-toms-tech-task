@@ -1,0 +1,208 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Income & Expenditure API",
+    "version": "1.0.0",
+    "description": "API for managing customer I&E statements."
+  },
+  "servers": [{ "url": "http://localhost:3000" }],
+  "security": [
+    {
+      "apiKeyAuth": []
+    }
+  ],
+  "paths": {
+    "/customers": {
+      "post": {
+        "summary": "Create a new customer",
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Customer object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Customer"
+              },
+              "example": {
+                "firstName": "Alice",
+                "middleName": "M.",
+                "lastName": "Wonderland",
+                "dateOfBirth": "1992-07-14T00:00:00.000Z",
+                "address": "789 Elm St"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Customer created" },
+          "500": { "description": "Server error" }
+        }
+      },
+      "get": {
+        "summary": "Get all customers",
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of customers",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Customer" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/statements": {
+      "post": {
+        "summary": "Create a new statement",
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Statement data including incomes and expenditures",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Statement" },
+              "example": {
+                "customerId": 1,
+                "statementLabel": "June Statement",
+                "incomes": [
+                  { "name": "Salary", "amount": 2800, "frequency": "monthly" },
+                  { "name": "Bonus", "amount": 12000, "frequency": "yearly" }
+                ],
+                "expenditures": [
+                  { "name": "Mortgage", "amount": 500, "frequency": "monthly" },
+                  { "name": "Utilities", "amount": 100, "frequency": "monthly" }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Statement created" },
+          "500": { "description": "Server error" }
+        }
+      }
+    },
+    "/statements/{id}": {
+      "get": {
+        "summary": "Get statement with calculations",
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Statement with calculated disposable income and I&E rating",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatementCalculation"
+                }
+              }
+            }
+          },
+          "404": { "description": "Statement not found" }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "apiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-api-key",
+        "example": "mysecretapikey"
+      }
+    },
+    "schemas": {
+      "Customer": {
+        "type": "object",
+        "properties": {
+          "firstName": { "type": "string" },
+          "middleName": { "type": "string" },
+          "lastName": { "type": "string" },
+          "dateOfBirth": { "type": "string", "format": "date-time" },
+          "address": { "type": "string" }
+        },
+        "required": ["firstName", "lastName", "dateOfBirth", "address"]
+      },
+      "Statement": {
+        "type": "object",
+        "properties": {
+          "customerId": { "type": "integer" },
+          "statementLabel": { "type": "string" },
+          "incomes": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/FinancialItem" }
+          },
+          "expenditures": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/FinancialItem" }
+          }
+        },
+        "required": ["customerId", "statementLabel", "incomes", "expenditures"]
+      },
+      "FinancialItem": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "amount": { "type": "number" },
+          "frequency": { "type": "string", "enum": ["monthly", "yearly"] }
+        },
+        "required": ["name", "amount", "frequency"]
+      },
+      "StatementCalculation": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "customerId": { "type": "integer" },
+          "statementLabel": { "type": "string" },
+          "incomes": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/FinancialItem" }
+          },
+          "expenditures": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/FinancialItem" }
+          },
+          "calculations": {
+            "type": "object",
+            "properties": {
+              "totalIncome": { "type": "number" },
+              "totalExpenditure": { "type": "number" },
+              "disposableIncome": { "type": "number" },
+              "rating": { "type": "string", "enum": ["A", "B", "C", "D"] }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,107 @@
+{
+  "info": {
+    "_postman_id": "6ffbb941-e0e4-4ee3-8281-1088dffed73d",
+    "name": "Income & Expenditure API Collection",
+    "description": "Collection for testing API endpoints",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "231007"
+  },
+  "item": [
+    {
+      "name": "Create Customer",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-api-key",
+            "value": "mysecretapikey"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstName\": \"Alice\",\n  \"middleName\": \"M.\",\n  \"lastName\": \"Wonderland\",\n  \"dateOfBirth\": \"1992-07-14T00:00:00.000Z\",\n  \"address\": \"789 Elm St\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/customers",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["customers"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Statement",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-api-key",
+            "value": "mysecretapikey"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"customerId\": 1,\n  \"statementLabel\": \"June Statement\",\n  \"incomes\": [\n    { \"name\": \"Salary\", \"amount\": 2800, \"frequency\": \"monthly\" },\n    { \"name\": \"Bonus\", \"amount\": 12000, \"frequency\": \"yearly\" }\n  ],\n  \"expenditures\": [\n    { \"name\": \"Mortgage\", \"amount\": 500, \"frequency\": \"monthly\" },\n    { \"name\": \"Utilities\", \"amount\": 100, \"frequency\": \"monthly\" }\n  ]\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/statements",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["statements"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Calculations",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "x-api-key",
+            "value": "mysecretapikey"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/statements/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["statements", "1"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Customers",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "x-api-key",
+            "value": "mysecretapikey"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/customers",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["customers"]
+        }
+      },
+      "response": []
+    }
+  ]
+}
