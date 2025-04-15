@@ -71,12 +71,12 @@ A Postman collection is included in this repo (`postman_collection.json`). Impor
 
 With more time, here are some enhancements I would consider:
 
-1. **Remove the Hardcoded API Key**: Currently, the API key is stored in the code for an easy run and review. In reality I would store this securely in a secrets manager and pass them to the env vars.
+1. **Remove the Hardcoded API Key, users and passwords**: Currently, the API key, mysql user and pass etc are stored in the code for an easy run and review. In reality I would store these securely in a secrets manager and pass them to the env vars.
 2. **User-Based Authentication**: Either implement user-based (customer) authentication directly in this API or create a separate backend for frontend (BFF) service that handles login/authorization, masking the API key from the client side.
 3. **Automated E2E Tests with Newman**: Use Newman to run the Postman collection (with added tests) as part of a CI pipeline for continuous, automated end-to-end testing.
 4. **Schema Validation with Zod**: I could generate TypeScript interfaces from Zod schemas or vice versa to perform runtime validation, providing clearer, more standardized API errors.
 5. **Expanded Error Handling & Logging**: Integrate a logging library (e.g., Winston) and add more precise error responses.
-6. **Scalability & Hosting**: Of course if this was utilised beyond local usage, I would implement solutions like AWS ECS or Kubernetes etc for production-grade scaling and use a managed DB service.
+6. **Scalability & Hosting**: If this was utilised beyond local usage, I would implement solutions like AWS ECS or Kubernetes etc for production-grade scaling and use a managed DB service. Additionally I wouldn't be hard coding the ports...
 
 ---
 

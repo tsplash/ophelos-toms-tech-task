@@ -13,7 +13,7 @@ async function getStatementWithCalculations(statementId: number) {
     return null;
   }
 
-  // Calculate monthly totals from incomes and expenditures using our utility class.
+  // Calculate monthly totals from incomes and expenditures using the utility class.
   const { disposableIncome, rating, totalIncome, totalExpenditure } =
     calculateIE(statement.incomes, statement.expenditures);
 
