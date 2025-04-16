@@ -64,7 +64,7 @@
       "response": []
     },
     {
-      "name": "Get Calculations",
+      "name": "Get Statement",
       "request": {
         "method": "GET",
         "header": [

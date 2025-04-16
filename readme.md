@@ -32,7 +32,7 @@ http://localhost:3000/api-docs
 
 ## Postman Collection
 
-A Postman collection is included in this repo (`postman_collection.json`). Import it into Postman to quickly test the endpoints. **Bear in mind you will need to create a statement first!** Ran out of time to seed the statement data....
+A Postman collection is included in this repo (`postman_collection.json`). Import it into Postman to quickly test the endpoints.
 
 ## My Thoughts / Approach
 

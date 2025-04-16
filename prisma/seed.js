@@ -22,6 +22,50 @@ async function main() {
     ],
   });
   console.log(`Seeded ${customers.count} customers`);
+
+  // Find John Doe
+  const john = await prisma.customer.findFirst({
+    where: {
+      firstName: "John",
+      lastName: "Doe",
+    },
+  });
+
+  if (john) {
+    // Create a statement for John
+    const statement = await prisma.statement.create({
+      data: {
+        customerId: john.id,
+        statementLabel: "April Statement",
+        incomes: {
+          create: [
+            {
+              name: "Salary",
+              amount: 3000,
+              frequency: "monthly",
+            },
+          ],
+        },
+        expenditures: {
+          create: [
+            {
+              name: "Mortgage",
+              amount: 1000,
+              frequency: "monthly",
+            },
+          ],
+        },
+      },
+      include: {
+        incomes: true,
+        expenditures: true,
+      },
+    });
+
+    console.log("Created statement:", statement);
+  } else {
+    console.log("Could not find John Doe to create a statement.");
+  }
 }
 
 main()
